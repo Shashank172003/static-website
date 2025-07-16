@@ -100,4 +100,4 @@ jobs:
       - name: Load and Push to DockerHub
         run: |
           docker load -i static-website.tar
-          docker push your-dockerhub-username/static-website:latest
+          docker push static-website:latest your-dockerhub-username/static-website:latest
