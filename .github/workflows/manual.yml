@@ -65,7 +65,7 @@ jobs:
           name: static-docker-image
           path: static-website.tar
 
-    docker-tag:
+  docker-tag:
     runs-on: ubuntu-latest
     needs: docker-build
 
@@ -82,7 +82,7 @@ jobs:
           docker tag static-website:latest ${{ secrets.DOCKER_USERNAME }}/static-website:latest
           docker tag static-website:latest ${{ secrets.DOCKER_USERNAME }}/static-website:$COMMIT_SHA
 
-      - name: Save Tagged Image
+      - name: Save Tagged Images
         run: |
           docker save ${{ secrets.DOCKER_USERNAME }}/static-website:latest -o latest.tar
           docker save ${{ secrets.DOCKER_USERNAME }}/static-website:${GITHUB_SHA::7} -o commit.tar
@@ -95,7 +95,7 @@ jobs:
             latest.tar
             commit.tar
 
-    docker-push:
+  docker-push:
     runs-on: ubuntu-latest
     needs: docker-tag
 
@@ -117,5 +117,3 @@ jobs:
           docker load -i commit.tar
           docker push ${{ secrets.DOCKER_USERNAME }}/static-website:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/static-website:${GITHUB_SHA::7}
-
-
