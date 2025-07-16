@@ -96,7 +96,11 @@ jobs:
         with:
           name: static-docker-image
 
-      - name: Load and Push Image
+      - name: Load and Tag Image
         run: |
           docker load -i static-website.tar
-          docker push your-dockerhub-username/static-website:latest
+          docker tag static-website:latest ${{ secrets.DOCKER_USERNAME }}/static-website:latest
+
+      - name: Push Image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/static-website:latest
+
